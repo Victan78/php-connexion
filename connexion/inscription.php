@@ -10,7 +10,7 @@ if($method==$_POST){
             ':password'=>$password
         ]
     );
-    header('Location: loginvisuelle.php');
+    header('Location: index.php');
 }
 else{
     echo "Mauvais login ou mot de passe";
