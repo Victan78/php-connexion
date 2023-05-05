@@ -1,12 +1,19 @@
 <?php
-$user = 'root';
-$host= 'containers-us-west-176.railway.app';
-$pass = 'F3mLC82nuGnLUvkXTkEl';
-$db = 'railway';
-$dsn = "mysql://root:F3mLC82nuGnLUvkXTkEl@containers-us-west-176.railway.app:5657/railway";
+// Récupérer les informations de connexion à la base de données sur Railways
+$url = getenv('DATABASE_URL');
+$dbUrl = parse_url($url);
+
+// Définir les informations de connexion PDO à la base de données MySQL sur Railways
+$host = $dbUrl['host'];
+$port = $dbUrl['port'];
+$dbname = ltrim($dbUrl['path'], '/');
+$username = $dbUrl['user'];
+$password = $dbUrl['pass'];
+
+// Initialiser une connexion PDO à la base de données MySQL sur Railways
 try {
-    $pdo = new PDO($dsn, $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO("mysql:host={$host};port={$port};dbname={$dbname}", $username, $password);
 } catch (PDOException $e) {
-    echo 'Connexion échouée : ' . $e->getMessage();
+    echo "Erreur de connexion à la base de données : " . $e->getMessage();
+    die();
 }
